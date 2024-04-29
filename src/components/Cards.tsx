@@ -20,12 +20,11 @@ export default function Cards() {
               component="img"
               alt="green alface"
               height="140"
-              image="/static/images/cards/contemplative-reptile.jpg"
+              image={card.sprites.front_default}
             />
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-              {card.name.toUpperCase()}
-
+              <Typography gutterBottom variant="h5" sx={{ textAlign: 'center' }} component="div">
+                {card.name.toUpperCase()}
               </Typography>
               {/* <Typography variant="body2" color="text.secondary">
                 Lizards are a widespread group of squamate reptiles, with over
@@ -40,7 +39,6 @@ export default function Cards() {
               sx={{ padding: 1 }}
             >
               <div>{card.types[0]!.type.name} </div>
-
               <div>
                 {card.types[1] && (
                   <div>
