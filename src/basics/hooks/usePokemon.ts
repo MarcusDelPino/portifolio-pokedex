@@ -36,7 +36,7 @@ export default function usePokemon() {
       setDetails(addDetails);
 
       // Logs dos detalhes dos Pokémon no console
-      // console.log(addDetails);
+      console.log(addDetails);
     } catch (error) {
       // Captura e lida com quaisquer erros que ocorram durante a busca dos detalhes dos Pokémon
       console.error("Error fetching Pokémon details:", error);
