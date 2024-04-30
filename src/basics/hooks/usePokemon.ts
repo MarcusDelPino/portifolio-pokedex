@@ -4,7 +4,7 @@ export default function usePokemon() {
   const [pokemons, setPokemons] = useState<any[]>([]);
   const [details, setDetails] = useState<any>([]);
 
-  const URLPOKE = `https://pokeapi.co/api/v2/pokemon?limit=151`;
+  const URLPOKE = `https://pokeapi.co/api/v2/pokemon?limit=5`;
 
   const getPokemons = useCallback(async () => {
     try {
@@ -20,32 +20,35 @@ export default function usePokemon() {
     getPokemons();
   }, [getPokemons]);
 
-  const addUrl = useCallback(async (pokemonUrl: any) => {
-    if (!pokemonUrl.length) return console.log('Zerado');
-    try {
-      // Mapeia cada URL de Pokémon para uma chamada fetch e retorna um array de promessas
-      const reqs = pokemonUrl.map(async (pokemon: any) => {
-        const response = await fetch(pokemon.url); // Faz uma solicitação assíncrona para a URL do Pokémon
-        return response.json(); // Retorna uma promessa que será resolvida com os detalhes do Pokémon
-      });
-
-      // Espera que todas as promessas sejam resolvidas usando Promise.all
-      const addDetails = await Promise.all(reqs);
-
-      // Quando todas as promessas forem resolvidas com sucesso, atualiza o estado 'details' com os detalhes dos Pokémon
-      setDetails(addDetails);
-
-      // Logs dos detalhes dos Pokémon no console
-      console.log(addDetails);
-    } catch (error) {
-      // Captura e lida com quaisquer erros que ocorram durante a busca dos detalhes dos Pokémon
-      console.error("Error fetching Pokémon details:", error);
-    }
-  }, []);
-
   useEffect(() => {
-    addUrl(pokemons);
-  }, [addUrl, pokemons]);
+    const addUrl = async (pokemonUrl: any) => {
+      try {
+        const reqs = pokemonUrl.map(async (reqUrl: any) => {
+          const response = await fetch(reqUrl.url);
+          return response.json();
+        });
 
-  return { getPokemons, pokemons, details };
+        const addDetails = await Promise.all(reqs);
+        setDetails(addDetails);
+        console.log(pokemons);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    addUrl(pokemons);
+  }, [pokemons]);
+
+  const changePokemons = (newList: any) => {
+    setPokemons(newList);
+    console.log(pokemons);
+  };
+
+  return {
+    getPokemons,
+    pokemons,
+    details,
+    setDetails,
+    setPokemons,
+    changePokemons,
+  };
 }

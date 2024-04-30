@@ -7,29 +7,49 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import usePokemon from "@/basics/hooks/usePokemon";
 import Grid from "@mui/material/Grid";
+import { Roboto, Lato } from "@next/font/google";
+import Image from "next/image";
+import Types from "./Types";
+
+const roboto = Roboto({
+  weight: ["400", "500", "700", "900"],
+  subsets: ["latin"],
+});
+
+const lato = Lato({
+  weight: ["900"],
+  subsets: ["latin"],
+});
 
 export default function Cards() {
   const { details } = usePokemon();
-  console.log(details);
+
   return (
     <>
+    <div>
+
+      {details.map((card:any) =>   <div key={card.id}>{card.name}</div> )}
+    </div>
       {details.map((card: any, ind: number) => (
         <Grid item xs={6} sm={4} md={3} lg={2} key={card.id}>
           <Card sx={{ maxWidth: 450 }}>
             <CardMedia
               component="img"
               alt="green alface"
-              height="140"
+              height="100"
+              width="100"
               image={card.sprites.front_default}
             />
             <CardContent>
-              <Typography gutterBottom variant="h5" sx={{ textAlign: 'center' }} component="div">
+              <Typography
+                gutterBottom
+                variant="h5"
+                sx={{ textAlign: "center" }}
+                component="div"
+                className={lato.className}
+              >
                 {card.name.toUpperCase()}
               </Typography>
-              {/* <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography> */}
             </CardContent>
             <Grid
               container
@@ -38,15 +58,7 @@ export default function Cards() {
               alignItems="flex-end"
               sx={{ padding: 1 }}
             >
-              <div>{card.types[0]!.type.name} </div>
-              <div>
-                {card.types[1] && (
-                  <div>
-                    <span className="ml-1"> / </span>
-                    {card.types[1]!.type.name}
-                  </div>
-                )}
-              </div>
+              <Types typeOne={card.types[0]!.type.name} typeTwo={card.types[1]?.type.name}/>
             </Grid>
           </Card>
         </Grid>

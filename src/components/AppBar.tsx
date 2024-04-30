@@ -6,6 +6,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import usePokemon from "@/basics/hooks/usePokemon";
+import { useEffect, useRef, useState } from "react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -50,6 +52,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
+  const {
+    details,
+    setDetails,
+    setPokemons,
+    getPokemons,
+   
+    pokemons,
+    changePokemons,
+  } = usePokemon();
+
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#b71c1c" }}>
@@ -64,7 +77,7 @@ export default function SearchAppBar() {
           </Typography>
           <Search>
             <SearchIconWrapper>
-              <SearchIcon sx={{ color: "#e1bee7" }}/>
+              <SearchIcon sx={{ color: "#e1bee7" }} />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="PokeSearch"
