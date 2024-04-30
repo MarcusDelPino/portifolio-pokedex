@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 export default function usePokemon() {
-  const [pokemons, setPokemons] = useState<any[]>([]);
+  const [pokemons, setPokemons] = useState<any>([]);
   const [details, setDetails] = useState<any>([]);
 
   const URLPOKE = `https://pokeapi.co/api/v2/pokemon?limit=5`;
@@ -20,27 +20,30 @@ export default function usePokemon() {
     getPokemons();
   }, [getPokemons]);
 
-  useEffect(() => {
-    const addUrl = async (pokemonUrl: any) => {
-      try {
-        const reqs = pokemonUrl.map(async (reqUrl: any) => {
-          const response = await fetch(reqUrl.url);
-          return response.json();
-        });
+  const addUrl = async (pokemonUrl: any) => {
+    try {
+      const reqs = pokemonUrl.map(async (reqUrl: any) => {
+        const response = await fetch(reqUrl.url);
+        return response.json();
+      });
 
-        const addDetails = await Promise.all(reqs);
-        setDetails(addDetails);
-        console.log(pokemons);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+      const addDetails = await Promise.all(reqs);
+      setDetails(addDetails);
+      console.log(pokemons);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  
+  useEffect(() => {
     addUrl(pokemons);
   }, [pokemons]);
 
-  const changePokemons = (newList: any) => {
+  function changePokemons (newList: any) {
     setPokemons(newList);
     console.log(pokemons);
+    
+    console.log(details);
   };
 
   return {

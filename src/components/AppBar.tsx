@@ -62,6 +62,11 @@ export default function SearchAppBar() {
     changePokemons,
   } = usePokemon();
 
+   const change = (e:any) => {
+    const newList = pokemons.filter((pokemon:any) => pokemon.name.includes(e.target.value));
+    changePokemons(newList);
+    console.log(pokemons);
+   }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -82,6 +87,7 @@ export default function SearchAppBar() {
             <StyledInputBase
               placeholder="PokeSearch"
               inputProps={{ roboto: "search" }}
+              onChange={e => change(e)}
             />
           </Search>
         </Toolbar>

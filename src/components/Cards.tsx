@@ -23,13 +23,10 @@ const lato = Lato({
 
 export default function Cards() {
   const { details } = usePokemon();
+  console.log(details);
 
   return (
     <>
-    <div>
-
-      {details.map((card:any) =>   <div key={card.id}>{card.name}</div> )}
-    </div>
       {details.map((card: any, ind: number) => (
         <Grid item xs={6} sm={4} md={3} lg={2} key={card.id}>
           <Card sx={{ maxWidth: 450 }}>
@@ -58,7 +55,10 @@ export default function Cards() {
               alignItems="flex-end"
               sx={{ padding: 1 }}
             >
-              <Types typeOne={card.types[0]!.type.name} typeTwo={card.types[1]?.type.name}/>
+              <Types
+                typeOne={card.types[0]!.type.name}
+                typeTwo={card.types[1]?.type.name}
+              />
             </Grid>
           </Card>
         </Grid>
