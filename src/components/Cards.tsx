@@ -17,7 +17,12 @@ const lato = Lato({
   subsets: ["latin"],
 });
 
-export default function Cards() {
+interface CardsProps {
+  details: [];
+}
+
+export default function Cards({ details }: CardsProps) {
+  console.log(details);
   return (
     <>
       {details.map((card: any, ind: number) => (

@@ -50,12 +50,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+interface SearchAppBarProps{
+  takeNameSearchBar: (text:any) => void
+}
 
 
+export default function SearchAppBar({takeNameSearchBar} : SearchAppBarProps) {
 
-export default function SearchAppBar() {
-
-  const {takeNameSearchBar} = usePokemon()
 
   return (
     <Box sx={{ flexGrow: 1 }}>

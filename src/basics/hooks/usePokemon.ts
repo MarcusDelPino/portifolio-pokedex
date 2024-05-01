@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 export default function usePokemon() {
   const [pokemons, setPokemons] = useState<any>([]);
   const [details, setDetails] = useState<any>([]);
-  const [receiveName, setReceiveName] = useState<string>("");
   const urlPoke = `https://pokeapi.co/api/v2/pokemon?limit=151`;
 
   const getApi = async () => {
@@ -25,31 +24,33 @@ export default function usePokemon() {
 
       const getDetails = await Promise.all(reqs);
       // console.log(getDetails);
-      return filteredPokemon(getDetails);
+      return setDetails(getDetails);
     } catch (error) {
       console.log(error);
     }
   };
 
-useEffect(() => {
-  const filteredPokemon = (pokeList: any) => {
-    const filter = pokeList.filter((pokemon: any) =>
-      pokemon.name.includes(receiveName)
-    );
-    setDetails(filter);
-
-  };
-  
-}, []);
-
   
 
-  const takeNameSearchBar = (text: string) => {
-    setReceiveName(text);
-  };
+  //   const filteredPokemon = (pokeList: any) => {
+  //     const filter = pokeList.filter((pokemon: any) =>
+  //       pokemon.name.includes(receiveName)
+  //     );
+  //     return setSendDetails(filter)
+      
+  //   };
 
-  // console.log(details)
+  //   useEffect(() => {
+  //     filteredPokemon(details)
+  //   }, [receiveName])
+   
+ 
 
+  // const takeNameSearchBar = (text: string) => {
+  //   setReceiveName(text);
+  // };
+
+  // // console.log(details)
 
   useEffect(() => {
     getPokemonsDetails(pokemons);
@@ -59,5 +60,5 @@ useEffect(() => {
     getApi();
   }, []);
 
-  return { pokemons, details, takeNameSearchBar };
+  return { pokemons, details };
 }
