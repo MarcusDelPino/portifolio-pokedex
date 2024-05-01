@@ -8,6 +8,7 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import usePokemon from "@/basics/hooks/usePokemon";
 import { useEffect, useRef, useState } from "react";
+import { useContextPokemon } from "@/context/pokemon";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -53,20 +54,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchAppBar() {
   const {
-    details,
-    setDetails,
-    setPokemons,
-    getPokemons,
-   
-    pokemons,
-    changePokemons,
-  } = usePokemon();
+    pokemon,
+    filterPokemon
+  } = useContextPokemon();
 
-   const change = (e:any) => {
-    const newList = pokemons.filter((pokemon:any) => pokemon.name.includes(e.target.value));
-    changePokemons(newList);
-    console.log(pokemons);
-   }
+  const change = (e: any) => {
+    const newList = pokemon.filter((pokemon: any) => pokemon.name.includes(e.target.value));
+    filterPokemon(newList);
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>

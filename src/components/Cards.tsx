@@ -10,6 +10,7 @@ import Grid from "@mui/material/Grid";
 import { Roboto, Lato } from "@next/font/google";
 import Image from "next/image";
 import Types from "./Types";
+import { useContextPokemon } from "@/context/pokemon";
 
 const roboto = Roboto({
   weight: ["400", "500", "700", "900"],
@@ -22,12 +23,20 @@ const lato = Lato({
 });
 
 export default function Cards() {
-  const { details } = usePokemon();
-  console.log(details);
+  const {
+    details,
+    getPokemon
+  } = useContextPokemon();
+
+  React.useEffect(() => {
+    getPokemon();
+  }, [])
+
+  console.log(details)
 
   return (
     <>
-      {details.map((card: any, ind: number) => (
+      {details?.map((card: any, ind: number) => (
         <Grid item xs={6} sm={4} md={3} lg={2} key={card.id}>
           <Card sx={{ maxWidth: 450 }}>
             <CardMedia
