@@ -1,19 +1,23 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
+import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import usePokemon from "@/basics/hooks/usePokemon";
+import Image from "next/image";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
+  color: "#ffc4c4",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.5),
+    color: "black",
   },
   marginLeft: 0,
   width: "100%",
@@ -50,33 +54,40 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+interface PesquisaPokemonProps {
+  filteredPokemon: (nome: string) => void;
+}
 
-
-
-export default function SearchAppBar() {
-
-  const {takeNameSearchBar} = usePokemon()
+export default function PesquisaPokemon({ filteredPokemon }: PesquisaPokemonProps) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#b71c1c" }}>
         <Toolbar>
           <Typography
-            variant="h5"
+            variant="h6"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            <Box component="img" src="/pokedex.png" height="2em" />
+            <Image
+              src={"/pokedex.png"}
+              priority
+              placeholder = 'empty'
+              alt="Pokemons"
+              width={100}
+              height={100}
+              style={{ width: "auto", height: "auto" }}
+            />
           </Typography>
           <Search>
             <SearchIconWrapper>
-              <SearchIcon sx={{ color: "#e1bee7" }} />
+              <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="PokeSearch"
-              inputProps={{ roboto: "search" }}
-              onChange={(e:any) => takeNameSearchBar(e.target.value)}
+              placeholder="Search…"
+              inputProps={{ "aria-label": "search" }}
+              onChange={(e) => filteredPokemon(e.target.value)}
             />
           </Search>
         </Toolbar>

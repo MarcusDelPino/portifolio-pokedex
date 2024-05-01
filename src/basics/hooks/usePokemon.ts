@@ -1,57 +1,63 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function usePokemon() {
   const [pokemons, setPokemons] = useState<any>([]);
   const [details, setDetails] = useState<any>([]);
+  const [receiveName, setReceiveName] = useState<string>("");
+  const urlPoke = `https://pokeapi.co/api/v2/pokemon?limit=151`;
 
-  const URLPOKE = `https://pokeapi.co/api/v2/pokemon?limit=5`;
-
-  const getPokemons = useCallback(async () => {
+  const getApi = async () => {
     try {
-      const addPokemons = await fetch(URLPOKE);
-      const data = await addPokemons.json();
+      const getFetch = await fetch(urlPoke);
+      const data = await getFetch.json();
       setPokemons(data.results);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
-  }, [URLPOKE]);
+  };
 
-  useEffect(() => {
-    getPokemons();
-  }, [getPokemons]);
-
-  const addUrl = async (pokemonUrl: any) => {
+  const getPokemonsDetails = async (pokemons: any) => {
     try {
-      const reqs = pokemonUrl.map(async (reqUrl: any) => {
-        const response = await fetch(reqUrl.url);
-        return response.json();
+      const reqs = pokemons.map(async (urlsPoke: any) => {
+        const results = await fetch(urlsPoke.url);
+        return results.json();
       });
 
-      const addDetails = await Promise.all(reqs);
-      setDetails(addDetails);
-      console.log(pokemons);
-    } catch (err) {
-      console.error(err);
+      const getDetails = await Promise.all(reqs);
+      // console.log(getDetails);
+      return filteredPokemon(getDetails);
+    } catch (error) {
+      console.log(error);
     }
   };
+
+useEffect(() => {
+  const filteredPokemon = (pokeList: any) => {
+    const filter = pokeList.filter((pokemon: any) =>
+      pokemon.name.includes(receiveName)
+    );
+    setDetails(filter);
+
+  };
   
+}, []);
+
+  
+
+  const takeNameSearchBar = (text: string) => {
+    setReceiveName(text);
+  };
+
+  // console.log(details)
+
+
   useEffect(() => {
-    addUrl(pokemons);
+    getPokemonsDetails(pokemons);
   }, [pokemons]);
 
-  function changePokemons (newList: any) {
-    setPokemons(newList);
-    console.log(pokemons);
-    
-    console.log(details);
-  };
+  useEffect(() => {
+    getApi();
+  }, []);
 
-  return {
-    getPokemons,
-    pokemons,
-    details,
-    setDetails,
-    setPokemons,
-    changePokemons,
-  };
+  return { pokemons, details, takeNameSearchBar };
 }
