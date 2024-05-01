@@ -5,7 +5,6 @@ interface PokemonContextType {
     details: Array<any>;
     getPokemon: () => void;
     addUrl: (param: any) => void;
-    changePokemons: (param: any) => void;
     filterPokemon: (param: any) => void;
 }
 
@@ -19,7 +18,7 @@ export function PokemonProvider({ children }: PokemonProviderProps) {
     const [pokemon, setPokemon] = useState<Array<string>>([]);
     const [details, setDetails] = useState<Array<any>>([]);
 
-    const URL_POKE = `https://pokeapi.co/api/v2/pokemon?limit=5`;
+    const URL_POKE = `https://pokeapi.co/api/v2/pokemon?limit=151`;
 
     const getPokemon = useCallback(async () => {
         try {
@@ -46,10 +45,7 @@ export function PokemonProvider({ children }: PokemonProviderProps) {
         }
     };
 
-    function changePokemons(newList: any) {
-        setPokemon(newList);
-    };
-
+    
     function filterPokemon(newList: any) {
         addUrl(newList);
     };
@@ -61,7 +57,6 @@ export function PokemonProvider({ children }: PokemonProviderProps) {
                 details,
                 getPokemon,
                 addUrl,
-                changePokemons,
                 filterPokemon
             }}
         >
